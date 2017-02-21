@@ -26,7 +26,19 @@ public class FizzBuzz {
      * @throws IllegalArgumentException if b is zero
      */
     public static boolean divides(int a, int b) throws IllegalArgumentException {
-        throw new NotImplementedException();
+       if (b == 0)
+       {
+    	   throw new IllegalArgumentException();
+       }
+    	if ((a % b == 0))
+       {
+    	   return true;
+       }
+       else
+       {
+    	   return false;
+       }
+       
     }
 
     /**
@@ -41,8 +53,29 @@ public class FizzBuzz {
      * @return a message according to the format above, or null if n is not divisible by either 3 or 5
      */
     public static String message(int n) {
-        throw new NotImplementedException();
+    	if ((n % 3==0)&&(n % 5==0))
+        {
+        	return(n+": FizzBuzz"); 
+        }
+    	
+    	else if (n % 3 == 0)
+        {
+        	return(n+": Fizz"); 
+        }
+        
+    	else if (n % 5 == 0)
+        {
+        	return(n+": Buzz"); 
+        	
+        }
+    	else 
+        {
+        	return(null); 
+        }
+   
     }
+    
+    
 
     /**
      * Generates an array of messages to print for a given range of numbers.
@@ -55,7 +88,53 @@ public class FizzBuzz {
      * @throws IllegalArgumentException if the given end is less than the given start
      */
     public static String[] messages(int start, int end) throws IllegalArgumentException {
-        throw new NotImplementedException();
+    	
+    	if (end < start)
+    	{
+    		throw new IllegalArgumentException();
+    	}
+    	
+    	int counter = 0;
+    	int counter2 = 0;
+    	int[] populatedArray = new int [(end-start)];
+    	String[] messagesReturn = new String[(end-start)];
+    	
+    	
+    	for (int i = 0; i < messagesReturn.length; i++) {
+    		populatedArray[i] = start + i; 
+    		//System.out.println(populatedArray[i]);
+		}
+    	
+    	for (int i = 0; i < messagesReturn.length; i++) {
+    		messagesReturn[i] = message(populatedArray[i]); 
+		}
+    	
+
+    	for (int i = 0; i < messagesReturn.length; i++) {
+    		if(messagesReturn[i] != null)
+    		{	
+    			    
+    	    		// messagesReturn2[counter] = messagesReturn[i];
+    	    		counter++;	
+    		}
+    		
+		}
+    	
+    	String[] messagesReturn2 = new String[counter];
+    	
+    	for (int i = 0; i < messagesReturn.length; i++) {
+    		if(messagesReturn[i] != null)
+    		{	
+    			    
+    	    	    messagesReturn2[counter2] = messagesReturn[i];
+    	    	    counter2++;
+    	    			
+    		}
+    		
+		}
+    	
+    	
+    	return messagesReturn2;
     }
 
     /**
@@ -63,7 +142,11 @@ public class FizzBuzz {
      * the relevant messages to sysout
      */
     public static void main(String[] args) {
-        throw new NotImplementedException();
+        for (int i = 1; i < 116; i++) {
+			
+        	System.out.println(i);
+		}
+        
     }
 
 }

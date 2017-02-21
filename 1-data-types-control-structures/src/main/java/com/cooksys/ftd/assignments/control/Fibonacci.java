@@ -24,7 +24,30 @@ public class Fibonacci {
      * @throws IllegalArgumentException if the given index is less than zero
      */
     public static int atIndex(int i) throws IllegalArgumentException {
-        throw new NotImplementedException();
+    	
+    	int[] finalIndex = new int[1];
+        int[] finalSlice= new int [i+1];
+    	
+    	if(i <0)
+        {
+        	throw new IllegalArgumentException();
+        }
+        
+        if(i== 0)
+        {
+        	finalIndex[0] = 1;
+        	return finalIndex[0];
+        }else{
+        	
+        
+        
+        System.out.println(i);
+        finalSlice= fibonacci(i+1);
+        
+        finalIndex[0] = finalSlice[i];
+        
+        return finalIndex[0];
+        }
     }
 
     /**
@@ -38,7 +61,39 @@ public class Fibonacci {
      *                                  given end is less than the given start
      */
     public static int[] slice(int start, int end) throws IllegalArgumentException {
-        throw new NotImplementedException();
+       
+    	if((start <0 || end<0) || (end <start))
+    	{
+    		throw new IllegalArgumentException();
+    	}
+    	
+    	int[] finalSlice= new int [(end-start) + 1 ];
+    	int[] finalSlice1 = new int [(end-start) + 1];
+    	int totalIndexSize = end -1;
+    	int newStart = start - 1 ;
+    	if(end == 0)
+    	{
+    		totalIndexSize = 0;	
+    		newStart = 0;
+    	}
+    	
+    	
+    	int counter = 0; 
+    	 
+    	
+    	
+    	
+    	finalSlice = fibonacci(totalIndexSize);
+    	
+    	for (int i = newStart; i < finalSlice.length; i++) {
+			
+    		finalSlice1[counter] = finalSlice[i];
+    		counter++;
+		}
+    	
+    	return finalSlice1;
+    	
+    	
     }
 
     /**
@@ -49,6 +104,29 @@ public class Fibonacci {
      * @throws IllegalArgumentException if the given count is negative
      */
     public static int[] fibonacci(int count) throws IllegalArgumentException {
-        throw new NotImplementedException();
+        
+    	if (count <0)
+    	{
+    		throw new IllegalArgumentException();
+    	}
+    	
+    	
+    	
+    	int firstNum = 0;
+    	int secondNum = 1; 
+    	int firstNumOld =1  ;
+    	int secondNumOld;
+    	int[] finalNumbersArray = new int [count];
+    	String teststring = "";
+    	for (int i = 0; i < finalNumbersArray.length; i++) 
+    	{
+			finalNumbersArray[i] = firstNumOld;
+			firstNumOld = firstNum+secondNum;
+			firstNum = secondNum;
+			secondNum = firstNumOld;	
+		}
+    	
+    	
+    	return finalNumbersArray;
     }
 }
