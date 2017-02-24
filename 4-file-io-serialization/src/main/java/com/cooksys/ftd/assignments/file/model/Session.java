@@ -1,13 +1,17 @@
 package com.cooksys.ftd.assignments.file.model;
 
 import java.util.List;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
 public class Session {
     private String location;
     private String startDate;
     private Instructor instructor;
     private List<Student> students;
 
+    @XmlElement
     public String getLocation() {
         return location;
     }
@@ -15,7 +19,8 @@ public class Session {
     public void setLocation(String location) {
         this.location = location;
     }
-
+    
+    @XmlElement
     public String getStartDate() {
         return startDate;
     }
@@ -23,7 +28,8 @@ public class Session {
     public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
-
+    
+    @XmlElement
     public Instructor getInstructor() {
         return instructor;
     }
@@ -31,7 +37,9 @@ public class Session {
     public void setInstructor(Instructor instructor) {
         this.instructor = instructor;
     }
-
+    
+    @XmlElement
+    // use wrapper ? 
     public List<Student> getStudents() {
         return students;
     }

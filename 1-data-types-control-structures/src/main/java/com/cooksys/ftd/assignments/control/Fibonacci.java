@@ -38,10 +38,7 @@ public class Fibonacci {
         	finalIndex[0] = 1;
         	return finalIndex[0];
         }else{
-        	
-        
-        
-        System.out.println(i);
+
         finalSlice= fibonacci(i+1);
         
         finalIndex[0] = finalSlice[i];
@@ -61,39 +58,52 @@ public class Fibonacci {
      *                                  given end is less than the given start
      */
     public static int[] slice(int start, int end) throws IllegalArgumentException {
-       
     	if((start <0 || end<0) || (end <start))
     	{
     		throw new IllegalArgumentException();
     	}
-    	
-    	int[] finalSlice= new int [(end-start) + 1 ];
-    	int[] finalSlice1 = new int [(end-start) + 1];
-    	int totalIndexSize = end -1;
-    	int newStart = start - 1 ;
     	if(end == 0)
-    	{
-    		totalIndexSize = 0;	
-    		newStart = 0;
+    		return new int[0];
+    	
+    	int[] fib = fibonacci(end);
+    	
+    	int[] results = new int[end - start];
+    	int counter = 0;
+    	for(int i = start; i < end; i++) {
+    		results[counter] = fib[i];
+    		counter++;
     	}
     	
+    	return results;
     	
-    	int counter = 0; 
-    	 
+    	/*
+       int arraySize =0;
+    	if((start <0 || end<0) || (end <start))
+    	{
+    		throw new IllegalArgumentException();
+    	}
+    	if (end == 0)
+    	{
+    		arraySize = 0;
+    	}else{
+    		arraySize = end-1;
+    	}
+    	int[] finalSlice= new int [arraySize];
+    	int [] fullArray  = new int [end];
+    	int counter = 0;
+
+    	fullArray = fibonacci(end);
     	
-    	
-    	
-    	finalSlice = fibonacci(totalIndexSize);
-    	
-    	for (int i = newStart; i < finalSlice.length; i++) {
+    	for (int i = start; i < finalSlice.length; i++) {
 			
-    		finalSlice1[counter] = finalSlice[i];
+    		finalSlice[counter] = fullArray[i];
+    		System.out.println(fullArray[i]);
     		counter++;
 		}
     	
-    	return finalSlice1;
+    	return finalSlice;
     	
-    	
+    	*/
     }
 
     /**

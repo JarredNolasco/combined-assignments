@@ -4,12 +4,53 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class FatCat implements Capitalist {
 
-    public FatCat(String name, int salary) {
-        throw new NotImplementedException();
+	private String fatCatName;
+	private int fatCatSalary;
+	private FatCat fatCatOwner;
+	
+    @Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((fatCatName == null) ? 0 : fatCatName.hashCode());
+		result = prime * result + ((fatCatOwner == null) ? 0 : fatCatOwner.hashCode());
+		result = prime * result + fatCatSalary;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		FatCat other = (FatCat) obj;
+		if (fatCatName == null) {
+			if (other.fatCatName != null)
+				return false;
+		} else if (!fatCatName.equals(other.fatCatName))
+			return false;
+		if (fatCatOwner == null) {
+			if (other.fatCatOwner != null)
+				return false;
+		} else if (!fatCatOwner.equals(other.fatCatOwner))
+			return false;
+		if (fatCatSalary != other.fatCatSalary)
+			return false;
+		return true;
+	}
+
+	public FatCat(String name, int salary) {
+        fatCatName = name;
+        fatCatSalary = salary;
     }
 
     public FatCat(String name, int salary, FatCat owner) {
-        throw new NotImplementedException();
+    	 fatCatName = name;
+         fatCatSalary = salary;
+         fatCatOwner = owner;
     }
 
     /**
@@ -17,7 +58,7 @@ public class FatCat implements Capitalist {
      */
     @Override
     public String getName() {
-        throw new NotImplementedException();
+        return fatCatName;
     }
 
     /**
@@ -25,7 +66,7 @@ public class FatCat implements Capitalist {
      */
     @Override
     public int getSalary() {
-        throw new NotImplementedException();
+        return fatCatSalary;
     }
 
     /**
@@ -33,7 +74,7 @@ public class FatCat implements Capitalist {
      */
     @Override
     public boolean hasParent() {
-        throw new NotImplementedException();
+        return fatCatOwner != null;
     }
 
     /**
@@ -41,6 +82,6 @@ public class FatCat implements Capitalist {
      */
     @Override
     public FatCat getParent() {
-        throw new NotImplementedException();
+        return fatCatOwner;
     }
 }

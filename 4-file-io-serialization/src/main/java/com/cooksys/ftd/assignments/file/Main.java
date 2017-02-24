@@ -1,11 +1,14 @@
 package com.cooksys.ftd.assignments.file;
 
 import com.cooksys.ftd.assignments.file.model.Contact;
+import java.io.File;
 import com.cooksys.ftd.assignments.file.model.Instructor;
 import com.cooksys.ftd.assignments.file.model.Session;
 import com.cooksys.ftd.assignments.file.model.Student;
 
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Unmarshaller;
+
 import java.io.File;
 import java.util.List;
 
@@ -20,8 +23,18 @@ public class Main {
      * @param jaxb the JAXB context to use
      * @return a {@link Student} object built using the {@link Contact} data in the given file
      */
-    public static Student readStudent(File studentContactFile, JAXBContext jaxb) {
-        return null; // TODO
+    public static Student readStudent(File studentContactFile, JAXBContext jaxb)throws Exception {
+    	
+    	Unmarshaller unmarshaller = jaxb.createUnmarshaller();
+    	
+    	Contact testStudent = (Contact) unmarshaller.unmarshal(studentContactFile);
+    	
+    	Student st = new Student();
+    	st.setContact(testStudent);
+    	
+    	//System.out.println(testStudent.getFirstName());
+    	return st;
+    	
     }
 
     /**
@@ -100,7 +113,13 @@ public class Main {
      *           </students>
      *      </session>
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
+    	
+    	JAXBContext jc = JAXBContext.newInstance(Contact.class,Student.class,Instructor.class,Session.class);
+    	File testFile =  new File ("./input/memphis/08-08-2016/students/adam-fraser.xml");
+    	
+    	readStudent(testFile,jc);
+    	
         // TODO
     }
 }
