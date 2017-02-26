@@ -10,6 +10,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
@@ -26,6 +27,7 @@ public class Main {
     public static Student readStudent(File studentContactFile, JAXBContext jaxb)throws Exception {
     	
     	Unmarshaller unmarshaller = jaxb.createUnmarshaller();
+    	
     	
     	Contact testStudent = (Contact) unmarshaller.unmarshal(studentContactFile);
     	
@@ -44,8 +46,23 @@ public class Main {
      * @param jaxb the JAXB context to use
      * @return a list of {@link Student} objects built using the contact files in the given directory
      */
-    public static List<Student> readStudents(File studentDirectory, JAXBContext jaxb) {
-        return null; // TODO
+    public static List<Student> readStudents(File studentDirectory, JAXBContext jaxb)throws Exception {
+    	
+    	JAXBContext jc = JAXBContext.newInstance(Contact.class,Student.class);
+    	File [] arrayOfFiles = studentDirectory.listFiles();
+    	ArrayList<Student> finalList = new ArrayList<Student>();
+    	for(File file : arrayOfFiles)
+    	{
+    		finalList.add(readStudent(file, jc));
+    		
+    	}
+    	
+    	
+    	// use list.file to get a list of the folders 
+    	// Return a list of objects not just the data that contains them 
+    	
+    	//System.out.println(finalList.size());
+        return finalList; // TODO
     }
 
     /**
@@ -57,8 +74,17 @@ public class Main {
      * @param jaxb the JAXB context to use
      * @return an {@link Instructor} object built using the {@link Contact} data in the given file
      */
-    public static Instructor readInstructor(File instructorContactFile, JAXBContext jaxb) {
-        return null; // TODO
+    public static Instructor readInstructor(File instructorContactFile, JAXBContext jaxb)throws Exception {
+
+    	Unmarshaller unmarshaller = jaxb.createUnmarshaller();
+    	
+    	Contact testStudent = (Contact) unmarshaller.unmarshal(instructorContactFile);
+    	
+    	Instructor st = new Instructor();
+    	st.setContact(testStudent);
+    	
+    	System.out.println(testStudent.getFirstName());
+    	return st;
     }
 
     /**
@@ -72,8 +98,25 @@ public class Main {
      * @param jaxb the JAXB context to use
      * @return a {@link Session} object built from the data in the given directory
      */
-    public static Session readSession(File rootDirectory, JAXBContext jaxb) {
-        return null; // TODO
+    public static Session readSession(File rootDirectory, JAXBContext jaxb) throws Exception {
+        
+    	Session finalSession = new Session();
+    	ArrayList<Student> finalStudentsList = new ArrayList<Student>();
+    	File dateLocation = new File(rootDirectory.listFiles()[0].toString());
+    	File studentFolderLocation = new File(dateLocation.listFiles()[0].toString());
+    	File instructorFileLocation = new File(dateLocation.listFiles()[1].toString());
+    	
+    	//finalSession.setInstructor(jaxb);
+    	//finalSession.setLocation(jaxb);
+    	finalSession.setStudents(readStudents(studentFolderLocation, jaxb));
+    	finalSession.setStartDate(dateLocation.toString());
+    	//System.out.println(finalSession.getStudents());
+    	System.out.println(rootDirectory);
+    	return finalSession; // TODO
+        
+        // Root of the directory will be the name of the place
+        // Next directory will be the star date
+        // Next direectory within the startdate will have the all the students and the instructor
     }
 
     /**
@@ -116,9 +159,15 @@ public class Main {
     public static void main(String[] args) throws Exception {
     	
     	JAXBContext jc = JAXBContext.newInstance(Contact.class,Student.class,Instructor.class,Session.class);
-    	File testFile =  new File ("./input/memphis/08-08-2016/students/adam-fraser.xml");
     	
-    	readStudent(testFile,jc);
+    	File studentTest =  new File ("./input/memphis/08-08-2016/students/adam-fraser.xml");
+    	File studentsTest = new File ("./input/memphis/08-08-2016/students/");
+    	File instructorTest =  new File ("./input/memphis/08-08-2016/instructor.xml");
+    	File sessionTest =  new File ("./input/memphis");
+    	//readStudent(studentTestFile,jc);
+    	//readInstructor(instructorTestFile, jc);
+    	//readStudents(studentsTestFile, jc);
+    	readSession(sessionTest, jc);
     	
         // TODO
     }

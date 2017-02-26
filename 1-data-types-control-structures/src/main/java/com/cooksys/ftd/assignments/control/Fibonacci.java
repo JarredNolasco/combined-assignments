@@ -39,11 +39,9 @@ public class Fibonacci {
         	return finalIndex[0];
         }else{
 
-        finalSlice= fibonacci(i+1);
-        
-        finalIndex[0] = finalSlice[i];
-        
-        return finalIndex[0];
+        	finalSlice= fibonacci(i+1);
+        	finalIndex[0] = finalSlice[i];
+        	return finalIndex[0];
         }
     }
 
@@ -58,10 +56,12 @@ public class Fibonacci {
      *                                  given end is less than the given start
      */
     public static int[] slice(int start, int end) throws IllegalArgumentException {
+    	
     	if((start <0 || end<0) || (end <start))
     	{
     		throw new IllegalArgumentException();
     	}
+    	
     	if(end == 0)
     		return new int[0];
     	
@@ -74,36 +74,7 @@ public class Fibonacci {
     		counter++;
     	}
     	
-    	return results;
-    	
-    	/*
-       int arraySize =0;
-    	if((start <0 || end<0) || (end <start))
-    	{
-    		throw new IllegalArgumentException();
-    	}
-    	if (end == 0)
-    	{
-    		arraySize = 0;
-    	}else{
-    		arraySize = end-1;
-    	}
-    	int[] finalSlice= new int [arraySize];
-    	int [] fullArray  = new int [end];
-    	int counter = 0;
-
-    	fullArray = fibonacci(end);
-    	
-    	for (int i = start; i < finalSlice.length; i++) {
-			
-    		finalSlice[counter] = fullArray[i];
-    		System.out.println(fullArray[i]);
-    		counter++;
-		}
-    	
-    	return finalSlice;
-    	
-    	*/
+    	return results;	 	
     }
 
     /**
@@ -113,6 +84,8 @@ public class Fibonacci {
      * @return the beginning of the fibonacci sequence, up to the given count, as an array of int elements
      * @throws IllegalArgumentException if the given count is negative
      */
+    
+    // Creates the actual fib numbers. 
     public static int[] fibonacci(int count) throws IllegalArgumentException {
         
     	if (count <0)
@@ -120,14 +93,12 @@ public class Fibonacci {
     		throw new IllegalArgumentException();
     	}
     	
-    	
-    	
     	int firstNum = 0;
     	int secondNum = 1; 
     	int firstNumOld =1  ;
-    	int secondNumOld;
+    
     	int[] finalNumbersArray = new int [count];
-    	String teststring = "";
+    	
     	for (int i = 0; i < finalNumbersArray.length; i++) 
     	{
 			finalNumbersArray[i] = firstNumOld;
