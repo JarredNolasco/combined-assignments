@@ -45,6 +45,7 @@ public class Rational implements IRational {
      */
     @Override
     public int getDenominator() {
+
         return denominator;
     }
 
@@ -122,8 +123,6 @@ public class Rational implements IRational {
         	{
         		denominator = Math.abs(denominator); 
         	}
-        	
-        	
         	
         	return ( "-"+numerator + "/" + denominator );
         }

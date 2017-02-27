@@ -36,7 +36,16 @@ interface IRational {
      * @return the negation of this
      */
     default IRational negate() {
-    	return (construct(-this.getNumerator(),this.getNumerator())); // This is how you manipualate data since this is an interface
+    	
+    		if (this.getNumerator() < 0)
+    		{
+    		return(construct(-this.getNumerator(),this.getDenominator()));
+    		}
+    
+    		else
+    		{	
+    		return (construct(-(this.getNumerator()),this.getDenominator()));
+    		}
     }
 
     /**
@@ -76,9 +85,8 @@ interface IRational {
         int thisNum = this.getNumerator();
         int thisDen = this.getDenominator();
         int thatNum = that.getNumerator();
-        int thatDen = that.getNumerator();
-        
-        
+        int thatDen = that.getDenominator();
+ 
         int NewNum = ((thisNum*thatDen)+ (thatNum*thisDen));
         int NewDom = thisDen * thatDen; 
         
@@ -105,9 +113,8 @@ interface IRational {
         int thisNum = this.getNumerator();
         int thisDen = this.getDenominator();
         int thatNum = that.getNumerator();
-        int thatDen = that.getNumerator();
-        
-         
+        int thatDen = that.getDenominator();
+          
         int NewNum = ((thisNum*thatDen)-(thatNum*thisDen));
         int NewDom = thisDen * thatDen;
         
@@ -135,9 +142,8 @@ interface IRational {
         int thisNum = this.getNumerator();
         int thisDen = this.getDenominator();
         int thatNum = that.getNumerator();
-        int thatDen = that.getNumerator();
+        int thatDen = that.getDenominator();
         
-         
         int NewNum = thisNum * thatNum;
         int NewDom = thisDen * thatDen;
         
@@ -164,8 +170,7 @@ interface IRational {
         int thisNum = this.getNumerator();
         int thisDen = this.getDenominator();
         int thatNum = that.getNumerator();
-        int thatDen = that.getNumerator();
-        
+        int thatDen = that.getDenominator();
          
         int NewNum = thisNum * thatDen;
         int NewDom = thisDen * thatNum;
