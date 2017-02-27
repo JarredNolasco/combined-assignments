@@ -37,6 +37,18 @@ public class MegaCorp implements Hierarchy<Capitalist, FatCat> {
     @Override
     public boolean add(Capitalist capitalist) {
     	
+    	if (capitalist == null || this.has(capitalist) || capitalist.hasParent() == false && capitalist instanceof WageSlave) {
+    		return false;
+    	} else if (capitalist.hasParent() != true && capitalist instanceof FatCat) {
+    		hashset.add(capitalist); 
+    		return true;
+    	} else {
+    		hashset.add(capitalist);
+    		this.add(capitalist.getParent());
+    		return true;
+    	}
+    	
+    	/*
     	//bad conditions
     	if (capitalist == null)		// makes sure that if it is null then it wont be added
     	{
@@ -46,6 +58,10 @@ public class MegaCorp implements Hierarchy<Capitalist, FatCat> {
     	{
     		return false;
     	}
+    	else if((capitalist.hasParent()== false) && (capitalist instanceof WageSlave))
+		{
+			return false;															// This adds the fatcat that is first without a parent
+		}
     	
     	
     	//make sure parents are in the MegaCorp
@@ -53,27 +69,25 @@ public class MegaCorp implements Hierarchy<Capitalist, FatCat> {
     	{																		   // the add method is called again with the parent of the entry. 
     		//use recursion, look at this carefully
     		hashset.add(capitalist.getParent());
+    		add(capitalist);
     		//return add(capitalist.getParent());
-    		return add(capitalist);
+    		return true;
     		
     	}
     	//add the dude
-    	else if((capitalist instanceof FatCat))
+    	else if(capitalist instanceof FatCat)
     	{
     		hashset.add(capitalist); 												// adds t
     		return true;
     	} 
-    	else if((capitalist.getParent() == null) && (capitalist instanceof WageSlave))
-		{
-			return false;															// This adds the fatcat that is first without a parent
-		}
+    	
     	else if((capitalist.getParent() != null) && (capitalist instanceof WageSlave))
     	{
     		hashset.add(capitalist);												// Adds the wageslave that has a parent
     		return true;
     	}
     	return true; 
-    	    	
+    	    	*/
     }
 
     /**
@@ -168,7 +182,7 @@ public class MegaCorp implements Hierarchy<Capitalist, FatCat> {
     						}
     			}
     		}
-    		finalHashMap.put((FatCat)c, finalSet) ;
+    		finalHashMap.put((FatCat)c.getParent(), finalSet) ;
     	}
     	return finalHashMap;
         // Will have to iterate through the map in order to fill it in from a set. 
@@ -183,21 +197,26 @@ public class MegaCorp implements Hierarchy<Capitalist, FatCat> {
     @Override
     public List<FatCat> getParentChain(Capitalist capitalist) {
     	
-    	ArrayList<FatCat> finalList = new ArrayList<FatCat>();
     	
-    	Capitalist k = capitalist;
-
-    	if(k !=null || k.hasParent() != false )
-    	{
-    		while (k.hasParent() && has(k.getParent()))
-    		{
-    			finalList.add((FatCat)k);
-    			k = k.getParent();
-    		}
+    	List<FatCat> parents = new ArrayList<>();
+    	
+    	Capitalist c = capitalist;
+    	
+    	if (c == null || c.hasParent() == false || !(hashset.contains(c.getParent()))) {
+    		return parents;
+    	}else{
+    	
+    	FatCat parent = capitalist.getParent();
+        while (parent != null) {
+            parents.add(parent);
+            parent = parent.getParent();
+        }
     	}
-    	return finalList; 
-    	 
+        return parents;
     }
-    
+     
+    	
+    	
+   
     
 }
