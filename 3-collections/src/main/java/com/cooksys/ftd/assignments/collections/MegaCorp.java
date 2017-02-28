@@ -47,47 +47,7 @@ public class MegaCorp implements Hierarchy<Capitalist, FatCat> {
     		this.add(capitalist.getParent());
     		return true;
     	}
-    	
-    	/*
-    	//bad conditions
-    	if (capitalist == null)		// makes sure that if it is null then it wont be added
-    	{
-    		return false;
-    	}
-    	else if(hashset.contains(capitalist)) // Makes sure that it wont' be added twice
-    	{
-    		return false;
-    	}
-    	else if((capitalist.hasParent()== false) && (capitalist instanceof WageSlave))
-		{
-			return false;															// This adds the fatcat that is first without a parent
-		}
-    	
-    	
-    	//make sure parents are in the MegaCorp
-    	if ((capitalist.hasParent())&&(!hashset.contains(capitalist.getParent()))) // if the entry has a parent and and the set does not contain
-    	{																		   // the add method is called again with the parent of the entry. 
-    		//use recursion, look at this carefully
-    		hashset.add(capitalist.getParent());
-    		add(capitalist);
-    		//return add(capitalist.getParent());
-    		return true;
-    		
-    	}
-    	//add the dude
-    	else if(capitalist instanceof FatCat)
-    	{
-    		hashset.add(capitalist); 												// adds t
-    		return true;
-    	} 
-    	
-    	else if((capitalist.getParent() != null) && (capitalist instanceof WageSlave))
-    	{
-    		hashset.add(capitalist);												// Adds the wageslave that has a parent
-    		return true;
-    	}
-    	return true; 
-    	    	*/
+ 
     }
 
     /**
@@ -122,7 +82,7 @@ public class MegaCorp implements Hierarchy<Capitalist, FatCat> {
      */
     @Override
     public Set<FatCat> getParents() {
-       // throw new NotImplementedException();
+      
     	Set<FatCat> finalSet = new HashSet<FatCat>();
     	for (Capitalist c : hashset) {
     		if (c instanceof FatCat)
@@ -162,30 +122,17 @@ public class MegaCorp implements Hierarchy<Capitalist, FatCat> {
      */
     @Override
     public Map<FatCat, Set<Capitalist>> getHierarchy() {
-    	
-    	
-    	
+    
     	Map<FatCat, Set<Capitalist>> finalHashMap = new HashMap<FatCat, Set<Capitalist>>();
-    	for (Capitalist c : hashset ) 
+    	Set<FatCat> parents = getParents();
+    	Set<Capitalist> children;
+    	
+    	for (FatCat f : parents ) 
     	{
-    		Set<Capitalist> finalSet = new HashSet<Capitalist>();
-    		if (c instanceof FatCat)
-    		{
-    			
-    			for (Capitalist d : hashset) 
-    			{
-    				if (d.getParent() == d )
-    						{
-    						finalSet.add(d);
-    						//finalHashMap.put(c, d) ;
-    						// add capitilast to set
-    						}
-    			}
-    		}
-    		finalHashMap.put((FatCat)c.getParent(), finalSet) ;
+    	  children = getChildren(f);
+    	  finalHashMap.put(f, children) ;
     	}
     	return finalHashMap;
-        // Will have to iterate through the map in order to fill it in from a set. 
     }
 
     /**

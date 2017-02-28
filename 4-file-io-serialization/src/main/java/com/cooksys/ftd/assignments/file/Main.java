@@ -7,6 +7,8 @@ import com.cooksys.ftd.assignments.file.model.Session;
 import com.cooksys.ftd.assignments.file.model.Student;
 
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 import java.io.File;
@@ -26,15 +28,11 @@ public class Main {
      */
     public static Student readStudent(File studentContactFile, JAXBContext jaxb)throws Exception {
     	
-    	Unmarshaller unmarshaller = jaxb.createUnmarshaller();
-    	
-    	
-    	Contact testStudent = (Contact) unmarshaller.unmarshal(studentContactFile);
-    	
+    	Unmarshaller unmarshaller = jaxb.createUnmarshaller();	
+    	Contact testStudent = (Contact) unmarshaller.unmarshal(studentContactFile);    	
     	Student st = new Student();
     	st.setContact(testStudent);
     	
-    	//System.out.println(testStudent.getFirstName());
     	return st;
     	
     }
@@ -53,15 +51,9 @@ public class Main {
     	ArrayList<Student> finalList = new ArrayList<Student>();
     	for(File file : arrayOfFiles)
     	{
-    		finalList.add(readStudent(file, jc));
-    		
+    		finalList.add(readStudent(file, jc));	
     	}
     	
-    	
-    	// use list.file to get a list of the folders 
-    	// Return a list of objects not just the data that contains them 
-    	
-    	//System.out.println(finalList.size());
         return finalList; // TODO
     }
 
@@ -76,14 +68,11 @@ public class Main {
      */
     public static Instructor readInstructor(File instructorContactFile, JAXBContext jaxb)throws Exception {
 
-    	Unmarshaller unmarshaller = jaxb.createUnmarshaller();
-    	
+    	Unmarshaller unmarshaller = jaxb.createUnmarshaller();    	
     	Contact testStudent = (Contact) unmarshaller.unmarshal(instructorContactFile);
-    	
     	Instructor st = new Instructor();
     	st.setContact(testStudent);
     	
-    	System.out.println(testStudent.getFirstName());
     	return st;
     }
 
@@ -101,22 +90,12 @@ public class Main {
     public static Session readSession(File rootDirectory, JAXBContext jaxb) throws Exception {
         
     	Session finalSession = new Session();
-    	ArrayList<Student> finalStudentsList = new ArrayList<Student>();
-    	File dateLocation = new File(rootDirectory.listFiles()[0].toString());
-    	File studentFolderLocation = new File(dateLocation.listFiles()[0].toString());
-    	File instructorFileLocation = new File(dateLocation.listFiles()[1].toString());
-    	
-    	//finalSession.setInstructor(jaxb);
-    	//finalSession.setLocation(jaxb);
-    	finalSession.setStudents(readStudents(studentFolderLocation, jaxb));
-    	finalSession.setStartDate(dateLocation.toString());
-    	//System.out.println(finalSession.getStudents());
-    	System.out.println(rootDirectory);
+    	Unmarshaller unmarshal = jaxb.createUnmarshaller();
+    	finalSession = (Session) unmarshal.unmarshal(rootDirectory); 
     	return finalSession; // TODO
+    	
+    	// If we were required to use this program with multiple 
         
-        // Root of the directory will be the name of the place
-        // Next directory will be the star date
-        // Next direectory within the startdate will have the all the students and the instructor
     }
 
     /**
@@ -127,7 +106,14 @@ public class Main {
      * @param jaxb the JAXB context to use
      */
     public static void writeSession(Session session, File sessionFile, JAXBContext jaxb) {
-        // TODO
+        Marshaller marshaller;
+        try {
+            marshaller = jaxb.createMarshaller();
+            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);;
+            marshaller.marshal(session, sessionFile);
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -159,15 +145,19 @@ public class Main {
     public static void main(String[] args) throws Exception {
     	
     	JAXBContext jc = JAXBContext.newInstance(Contact.class,Student.class,Instructor.class,Session.class);
-    	
-    	File studentTest =  new File ("./input/memphis/08-08-2016/students/adam-fraser.xml");
-    	File studentsTest = new File ("./input/memphis/08-08-2016/students/");
-    	File instructorTest =  new File ("./input/memphis/08-08-2016/instructor.xml");
-    	File sessionTest =  new File ("./input/memphis");
-    	//readStudent(studentTestFile,jc);
-    	//readInstructor(instructorTestFile, jc);
-    	//readStudents(studentsTestFile, jc);
-    	readSession(sessionTest, jc);
+    	Session finalSession = new Session();
+
+    	File studentsPath = new File ("./input/memphis/08-08-2016/students/");
+    	File instructorFilePath =  new File ("./input/memphis/08-08-2016/instructor.xml");
+    	File writeFilePath = new File ("output/session.xml");
+
+    	finalSession.setInstructor(readInstructor(instructorFilePath, jc));
+    	finalSession.setStudents(readStudents(studentsPath, jc));
+    	finalSession.setLocation("Memphis");
+    	finalSession.setStartDate("1-1-17");
+    	readSession(new File("output/session.xml"), jc);
+    	writeSession(finalSession, writeFilePath, jc);
+    	readSession(new File("output/session.xml"), jc);
     	
         // TODO
     }
