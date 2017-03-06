@@ -1,1 +1,6 @@
-<student/>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<student firstName="Jarred" lastName="Nolasco">
+    <favorite-ide>NotePad++</favorite-ide>
+    <favorite-language>Spanish</favorite-language>
+    <favorite-paradigm>Yuhh</favorite-paradigm>
+</student>
